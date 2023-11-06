@@ -1,5 +1,7 @@
+using Fungus;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -9,6 +11,13 @@ public class PlayerController : MonoBehaviour
 {
 
     public static PlayerController instance;
+
+    //イベントパネル
+    [SerializeField] GameObject panel;
+    [SerializeField] GameObject panel2;
+    public Transform target; // 近づくべきオブジェクトのTransform
+    private events events1;
+
 
     [SerializeField] GameObject attackHit = null;
     [SerializeField] float jumpPower =20f;
@@ -30,6 +39,8 @@ public class PlayerController : MonoBehaviour
     bool isAttack = false;
     bool isGround = false;
     [System.Serializable]
+
+
     public class Status
     {
         // 体力
@@ -66,6 +77,7 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
+        events1 = events.go;
         animator = GetComponent<Animator>();
         attackHit.SetActive(false);
         rigid = GetComponent<Rigidbody>();
@@ -188,6 +200,25 @@ public class PlayerController : MonoBehaviour
                 bool currentIsRun = animator.GetBool("isRun");
                 if(currentIsRun == true)animator.SetBool("isRun",false);
             }
+
+        if (events1 == events.go)
+        {
+            if (Vector3.Distance(transform.position, target.position) < 2f)
+            {
+                events1 = events.stop;
+                // 近づいたときの処理を記述する
+                panel.SetActive(true);
+
+            }
+        }
+        else if (events1 == events.stop)
+        {
+            if (Vector3.Distance(transform.position, target.position) > 2f)
+            {
+                events1 = events.go;
+            }
+        }
+
     }
 
     void FixedUpdate()
@@ -340,5 +371,26 @@ public class PlayerController : MonoBehaviour
         hpBar.value = CurrentStatus.Hp; 
     }
 
+    public enum events
+    {
+        go,
+        stop,
+    }
+
+    public void YesClick()
+    {
+        StartCoroutine(Events());
+    }
+    public void NoClick()
+    {
+        panel.SetActive(false);
+    }
+    IEnumerator Events()
+    {
+        Destroy(panel);
+        panel2.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Destroy(panel2);
+    }
 }
 
