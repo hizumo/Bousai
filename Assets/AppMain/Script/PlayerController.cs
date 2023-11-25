@@ -1,6 +1,7 @@
 using Fungus;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +10,11 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public static int score = 0;
+    [SerializeField] Text Score;
+
+    public AudioClip sound1;
+    AudioSource audioSource;
 
     public static PlayerController instance;
 
@@ -17,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject panel2;
     public Transform target; // 近づくべきオブジェクトのTransform
     private events events1;
+    [SerializeField] GameObject bar;
 
 
     [SerializeField] GameObject attackHit = null;
@@ -77,6 +84,9 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
+
+        audioSource = GetComponent<AudioSource>();
+
         events1 = events.go;
         animator = GetComponent<Animator>();
         attackHit.SetActive(false);
@@ -108,6 +118,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        Score.text = string.Format("{0} Pt", score);
+
         // カメラをプレイヤーに向ける
         cameraController.UpdateCameraLook(this.transform);
         if(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
@@ -379,6 +392,7 @@ public class PlayerController : MonoBehaviour
 
     public void YesClick()
     {
+        audioSource.PlayOneShot(sound1);
         StartCoroutine(Events());
     }
     public void NoClick()
@@ -387,6 +401,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Events()
     {
+        bar.SetActive(true);
         Destroy(panel);
         panel2.SetActive(true);
         yield return new WaitForSeconds(3);
