@@ -48,7 +48,7 @@ public class SetObj : MonoBehaviour
                     panel3.SetActive(true);
                     yield return new WaitForSeconds(1.5f);
                     Destroy(panel3);
-                    PlayerController.score += 500;
+                    PlayerController.score += 10;
                     setObjectDisappear.SetActive(false);
                 }
             }
@@ -61,7 +61,7 @@ public class SetObj : MonoBehaviour
                     panel4.SetActive(true);
                     yield return new WaitForSeconds(1.5f);
                     Destroy(panel4);
-                    PlayerController.score += 500;
+                    PlayerController.score += 10;
                     setObjectDisappear.SetActive(false);
 
                 }
@@ -74,7 +74,7 @@ public class SetObj : MonoBehaviour
                     panel5.SetActive(true);
                     yield return new WaitForSeconds(1.5f);
                     Destroy(panel5);
-                    PlayerController.score += 500;
+                    PlayerController.score += 10;
                     setObjectDisappear.SetActive(false);
 
                 }
