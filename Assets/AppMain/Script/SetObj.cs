@@ -12,6 +12,7 @@ public class SetObj : MonoBehaviour
     [SerializeField] GameObject Tanker;
     [SerializeField] GameObject panel3;
     [SerializeField] GameObject panel4;
+    [SerializeField] GameObject panel5;
     public static int count = 0;
 
     // 適切なアイテムを選択した状態で
@@ -47,7 +48,7 @@ public class SetObj : MonoBehaviour
                     panel3.SetActive(true);
                     yield return new WaitForSeconds(1.5f);
                     Destroy(panel3);
-                    PlayerController.score += 10;
+                    PlayerController.score += 500;
                     setObjectDisappear.SetActive(false);
                 }
             }
@@ -60,15 +61,23 @@ public class SetObj : MonoBehaviour
                     panel4.SetActive(true);
                     yield return new WaitForSeconds(1.5f);
                     Destroy(panel4);
-                    PlayerController.score += 10;
+                    PlayerController.score += 500;
                     setObjectDisappear.SetActive(false);
 
                 }
             }
             else if(count == 2) 
             {
-                PlayerController.score += 10;
-                setObjectDisappear.SetActive(false);
+                StartCoroutine(Events4());
+                IEnumerator Events4()
+                {
+                    panel5.SetActive(true);
+                    yield return new WaitForSeconds(1.5f);
+                    Destroy(panel5);
+                    PlayerController.score += 500;
+                    setObjectDisappear.SetActive(false);
+
+                }
 
             }
         }

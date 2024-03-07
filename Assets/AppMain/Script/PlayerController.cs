@@ -392,7 +392,6 @@ public class PlayerController : MonoBehaviour
 
     public void YesClick()
     {
-        audioSource.PlayOneShot(sound1);
         StartCoroutine(Events());
     }
     public void NoClick()
