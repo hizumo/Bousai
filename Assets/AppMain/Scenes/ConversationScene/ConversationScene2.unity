@@ -179,7 +179,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 1364354}
   selectedCommands:
-  - {fileID: 1364358}
+  - {fileID: 1364355}
   variables: []
   description: 
   stepPause: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 70.06186
     y: 73.42857
-    width: 111.714264
+    width: 111.42854
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -318,8 +318,8 @@ MonoBehaviour:
   indentLevel: 0
   storyText: "\u975E\u5E38\u7528\u30DC\u30C3\u30AF\u30B9\u3092\u958B\u3051\u3088\u3046"
   description: 
-  character: {fileID: 1857542823}
-  portrait: {fileID: 21300000, guid: 7d03e4c5ff74d334da9b2114985b575a, type: 3}
+  character: {fileID: 1662995221}
+  portrait: {fileID: 21300000, guid: 9be1f17dcbd2d8149af54bcebe95df06, type: 3}
   voiceOverClip: {fileID: 0}
   showAlways: 1
   showCount: 1
@@ -345,8 +345,8 @@ MonoBehaviour:
   indentLevel: 0
   storyText: "\u308F\u304B\u308A\u307E\u3057\u305F\uFF01"
   description: 
-  character: {fileID: 1857542823}
-  portrait: {fileID: 21300000, guid: 7d03e4c5ff74d334da9b2114985b575a, type: 3}
+  character: {fileID: 1662995221}
+  portrait: {fileID: 21300000, guid: 9be1f17dcbd2d8149af54bcebe95df06, type: 3}
   voiceOverClip: {fileID: 0}
   showAlways: 1
   showCount: 1
@@ -426,8 +426,8 @@ MonoBehaviour:
   indentLevel: 0
   storyText: "\u306F\u3044\u30FB\u30FB\u30FB\u3067\u3082\u30A8\u30EC\u30D9\u30FC\u30BF\u30FC\u306B\u9589\u3058\u8FBC\u3081\u3089\u308C\u3066\u3057\u307E\u3063\u3066"
   description: 
-  character: {fileID: 1857542823}
-  portrait: {fileID: 21300000, guid: 7d03e4c5ff74d334da9b2114985b575a, type: 3}
+  character: {fileID: 1662995221}
+  portrait: {fileID: 21300000, guid: 9be1f17dcbd2d8149af54bcebe95df06, type: 3}
   voiceOverClip: {fileID: 0}
   showAlways: 1
   showCount: 1
@@ -480,8 +480,8 @@ MonoBehaviour:
   indentLevel: 0
   storyText: "\u30FB\u30FB\u30FB"
   description: 
-  character: {fileID: 1857542823}
-  portrait: {fileID: 21300000, guid: 7d03e4c5ff74d334da9b2114985b575a, type: 3}
+  character: {fileID: 1662995221}
+  portrait: {fileID: 21300000, guid: 9be1f17dcbd2d8149af54bcebe95df06, type: 3}
   voiceOverClip: {fileID: 0}
   showAlways: 1
   showCount: 1
@@ -507,8 +507,8 @@ MonoBehaviour:
   indentLevel: 0
   storyText: "\u975E\u5E38\u7528\u30DC\u30BF\u30F3\u3092\u62BC\u3057\u305F\u3088\uFF01\uFF01"
   description: 
-  character: {fileID: 1857542823}
-  portrait: {fileID: 21300000, guid: 7d03e4c5ff74d334da9b2114985b575a, type: 3}
+  character: {fileID: 1662995221}
+  portrait: {fileID: 21300000, guid: 9be1f17dcbd2d8149af54bcebe95df06, type: 3}
   voiceOverClip: {fileID: 0}
   showAlways: 1
   showCount: 1
@@ -1735,6 +1735,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1662995220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1662995222}
+  - component: {fileID: 1662995221}
+  m_Layer: 0
+  m_Name: Girl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1662995221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662995220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25fb867d2049d41f597aefdd6b19f598, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: Player
+  nameColor: {r: 0.069299996, g: 0.99, b: 0.99, a: 1}
+  soundEffect: {fileID: 0}
+  portraits:
+  - {fileID: 21300000, guid: 9be1f17dcbd2d8149af54bcebe95df06, type: 3}
+  portraitsFace: 0
+  setSayDialog: {fileID: 0}
+  description: 
+--- !u!4 &1662995222
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662995220}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857542822
 GameObject:

@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+
     public static int score = 0;
     [SerializeField] Text Score;
 
