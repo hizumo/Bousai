@@ -113,14 +113,14 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d6c200a9d46e2ae4eafa1de11c8a65e4, type: 2}
-  - {fileID: 2100000, guid: f08a69f342bec2d40bdb9a887eb5864b, type: 2}
-  - {fileID: 2100000, guid: 22e3d00d54d98ef43865f02f56e213d9, type: 2}
-  - {fileID: 2100000, guid: 8ca8753274c9ab14a85243116cdd2ecd, type: 2}
-  - {fileID: 2100000, guid: 8f5eed12ecd3acd4c838ed08be41c050, type: 2}
-  - {fileID: 2100000, guid: 446283d982d42164d9c40992f44add7f, type: 2}
-  - {fileID: 2100000, guid: d5d6d9f446a8db0489de32735e0cec5d, type: 2}
-  - {fileID: 2100000, guid: 6231c0fb07bc2224eaf35b5e579b7c2e, type: 2}
+  - {fileID: 2100000, guid: 6ceccc2adbcdbdd4c925dc837e7477ea, type: 2}
+  - {fileID: 2100000, guid: a59c4e8e7b49adf418991e6314f2a07c, type: 2}
+  - {fileID: 2100000, guid: 14aeba6730c43044680cd4e45a832dc6, type: 2}
+  - {fileID: 2100000, guid: fdbd98514c955cf4c8704f51d4a349ac, type: 2}
+  - {fileID: 2100000, guid: 638dc8bafbe065f479dbdef41555b6ce, type: 2}
+  - {fileID: 2100000, guid: 0db0b14c54c7bb94aaff689e65b497af, type: 2}
+  - {fileID: 2100000, guid: e0d20f0c85e26a54fb83b86b62e6eddb, type: 2}
+  - {fileID: 2100000, guid: e5b98844c00a4c743a785e936a30855e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -145,7 +145,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: dbf0b5fb6d8c2044ea7685faa61ccd0f, type: 2}
+  m_Mesh: {fileID: 4300000, guid: ece4b030eb60f0946a9fa0824868f1a2, type: 2}
   m_Bones:
   - {fileID: 4580736924369876720}
   - {fileID: 2973388956382910766}
@@ -1040,11 +1040,11 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9b19c48ea85c01c46b1c0dea7493aaab, type: 2}
-  - {fileID: 2100000, guid: eca022d48376e5e42b4d6ead72580939, type: 2}
-  - {fileID: 2100000, guid: b9a6a6bf836e52344b23a702e1c90847, type: 2}
-  - {fileID: 2100000, guid: 4d116da390007954499738a34cb7e749, type: 2}
-  - {fileID: 2100000, guid: f6953c94a27fe8f4ea7a8620421b4e38, type: 2}
+  - {fileID: 2100000, guid: 4c7c97694213e8a46818288dfe275593, type: 2}
+  - {fileID: 2100000, guid: da216d96b252e6c458fbc0c01e168c7e, type: 2}
+  - {fileID: 2100000, guid: 00421c037d76f54479e25093b741c5c7, type: 2}
+  - {fileID: 2100000, guid: 3b3f1adbea149dc4b93861e23b830b22, type: 2}
+  - {fileID: 2100000, guid: 58df41627eedd2a4aa85bcb6871ac2cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1069,7 +1069,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: dc6c4489f43b4d545a6d2b7e595636a1, type: 2}
+  m_Mesh: {fileID: 4300000, guid: dfb90e1b33b6ee14984493d9bac47bec, type: 2}
   m_Bones:
   - {fileID: 4580736924369876720}
   - {fileID: 2973388956382910766}
@@ -3115,7 +3115,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0a18d0e2f0b42f4468a19a600acc0fd4, type: 2}
+  - {fileID: 2100000, guid: 721d98cef8b1e81478a8ce2a519ab22d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3140,7 +3140,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: 468c2c1fc09a6dd4389f06d994171c94, type: 2}
+  m_Mesh: {fileID: 4300000, guid: ab7684b192ff9b040a95afd4e6cdeef4, type: 2}
   m_Bones:
   - {fileID: 4580736924369876720}
   - {fileID: 2973388956382910766}
@@ -3875,7 +3875,6 @@ GameObject:
   - component: {fileID: 5378341503994535180}
   - component: {fileID: 4786316699950763344}
   - component: {fileID: 3227317649754224933}
-  - component: {fileID: -394188701549042431}
   m_Layer: 0
   m_Name: playerModel__
   m_TagString: Untagged
@@ -3914,7 +3913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690ea0146224b8b4694a1925dddeb352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Meta: {fileID: 11400000, guid: 2759005c523af9e408df80198c3dadae, type: 2}
+  Meta: {fileID: 11400000, guid: 609e4c06a903ecd429cec4ce3cbce03f, type: 2}
 --- !u!114 &2718845158830712128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3927,8 +3926,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3869812175467a143ab9cd865752b4a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Avatar: {fileID: 9000000, guid: 470f10004d35f6a4aacc89960cc8e711, type: 2}
-  Description: {fileID: 11400000, guid: 1d4ed2ac52dd5744893918aaba36cb4c, type: 2}
+  Avatar: {fileID: 9000000, guid: 430f940009210744ab8ce27d09374a34, type: 2}
+  Description: {fileID: 11400000, guid: 666c7e75052364f40a07e900428f70cb, type: 2}
 --- !u!95 &5913976283035668325
 Animator:
   serializedVersion: 3
@@ -3938,8 +3937,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8016534856153060690}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 470f10004d35f6a4aacc89960cc8e711, type: 2}
-  m_Controller: {fileID: 9100000, guid: cb8f8c555e31b164a9fcd6824c02484e, type: 2}
+  m_Avatar: {fileID: 9000000, guid: 430f940009210744ab8ce27d09374a34, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3960,7 +3959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b678c1df50cfb547990db24a32856da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlendShapeAvatar: {fileID: 11400000, guid: 2b965a8b3d4a1db409a43c477c542324, type: 2}
+  BlendShapeAvatar: {fileID: 11400000, guid: a84f7457f987773478eb4ec34e1b4dcd, type: 2}
 --- !u!114 &5378341503994535180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4159,20 +4158,6 @@ MonoBehaviour:
       m_RotationOrder: 4
     CurveXRangeDegree: 90
     CurveYRangeDegree: 10
---- !u!114 &-394188701549042431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8016534856153060690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0600e318854a29a4e8a0e08224ba78f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 4
-  rotSpeed: 120
 --- !u!1 &8168618246616913210
 GameObject:
   m_ObjectHideFlags: 0
