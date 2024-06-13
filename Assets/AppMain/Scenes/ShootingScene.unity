@@ -847,7 +847,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 198c5f19cdcc5114fa78e962a4b71495, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.8
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 198c5f19cdcc5114fa78e962a4b71495, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11435,6 +11435,9 @@ MonoBehaviour:
     Hp: 15
   CurrentStatus:
     Hp: 15
+  moveSpeed: 5
+  minBounds: {x: 0, y: 0, z: -3}
+  maxBounds: {x: 0.8, y: 0.8, z: -3}
 --- !u!1 &1994020280
 GameObject:
   m_ObjectHideFlags: 0
