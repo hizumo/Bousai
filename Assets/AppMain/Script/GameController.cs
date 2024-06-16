@@ -8,6 +8,10 @@ public class GameController : MonoBehaviour
 {
     // ゲームオーバーオブジェクト.
     [SerializeField] GameObject gameOver = null;
+    // itemlist
+    [SerializeField] GameObject itemlist = null;
+    // zoombotan
+    [SerializeField] GameObject zoombotan = null;
     // ゲームクリアオブジェクト.
     [SerializeField] GameObject gameClear = null;
  
@@ -244,6 +248,8 @@ public class GameController : MonoBehaviour
         gameOver.SetActive(true);
         // プレイヤーを非表示.
         player.gameObject.SetActive(false);
+        itemlist.SetActive(false);
+        zoombotan.SetActive(false);
         // 敵の攻撃フラグを解除.
         foreach (EnemyBase enemy in fieldEnemys) enemy.IsBattle = false;
     }

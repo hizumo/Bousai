@@ -324,8 +324,9 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(WaitDestroy(par));
         particleObjectList.Add(obj);
 
-        if(CurrentStatus.Hp <=0)
+        if (CurrentStatus.Hp <= 0)
         {
+            Debug.Log("HPが0になった");
             OnDie();
         }
         else
@@ -382,7 +383,13 @@ public class PlayerController : MonoBehaviour
 
         if(CurrentStatus.Hp > DefaultStatus.Hp) CurrentStatus.Hp = DefaultStatus.Hp;
 
-        hpBar.value = CurrentStatus.Hp; 
+        hpBar.value = CurrentStatus.Hp;
+
+        if (CurrentStatus.Hp <= 0)
+        {
+            Debug.Log("HPが0になった");
+            OnDie();
+        }
     }
 
     public enum events
