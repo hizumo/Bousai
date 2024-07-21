@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AppMain/Scenes/ConversationScene/ConversationScene6.unity
     guid: 4794764bae8d3344494e1651eac8c749
+  - enabled: 1
+    path: Assets/AppMain/Scenes/FireExtingusher/Fire_extinguisher_Explain.unity
+    guid: ee74a92c4b1d05347964fdc7d4cdfb72
   m_configObjects: {}

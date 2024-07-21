@@ -13,12 +13,11 @@ public class ShotSrc : MonoBehaviour
     [SerializeField] private Transform muzzle;
     [SerializeField] private float bulletPower = 500f;
     [SerializeField] Slider FireBar= null;
-    private int WaterPoint = 1;
     [System.Serializable]
     public class Status
     {
         // 体力
-        public int Hp = 15;
+        public float Hp = 3;
     }
     // 基本ステータス
     [SerializeField] Status DefaultStatus = new Status();
@@ -29,6 +28,7 @@ public class ShotSrc : MonoBehaviour
     [SerializeField] private Vector3 minBounds; // 移動範囲の最小値
     [SerializeField] private Vector3 maxBounds; // 移動範囲の最大値
 
+    private bool isShooting = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +43,10 @@ public class ShotSrc : MonoBehaviour
     {
         HandleMovement();
         HandleShooting();
-
+        if (isShooting)
+        {
+            DecreaseFireBarOverTime();
+        }
     }
 
     private void HandleMovement()
@@ -72,17 +75,21 @@ public class ShotSrc : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            var bulletInstance = Instantiate<GameObject>(bulletPrefab, muzzle.position, muzzle.rotation * Quaternion.Euler(0, 0, 0));
-            Debug.Log(muzzle.position);
-            Debug.Log(muzzle.rotation.GetType());
+            isShooting = !isShooting;
+        }
+
+        if (isShooting && CurrentStatus.Hp > 0)
+        {
+            // 弾丸の発射位置をmuzzleの現在位置からy座標を+10した位置に設定
+            Vector3 shootPosition = new Vector3(muzzle.position.x, muzzle.position.y + 0.5f, muzzle.position.z);
+            Quaternion shootRotation = muzzle.rotation;
+
+            var bulletInstance = Instantiate<GameObject>(bulletPrefab, shootPosition, shootRotation);
             bulletInstance.GetComponent<Rigidbody>().AddForce(bulletInstance.transform.up * bulletPower);
-            CurrentStatus.Hp -= WaterPoint;
-            // transform.position = Vector3.MoveTowards(transform.position,direction,step);
-            FireBar.value = CurrentStatus.Hp;
             Destroy(bulletInstance, 5f);
         }
 
-        if (CurrentStatus.Hp == 0)
+        if (CurrentStatus.Hp <= 0)
         {
             Fire.SetActive(false);
             Smog.SetActive(true);
@@ -90,4 +97,18 @@ public class ShotSrc : MonoBehaviour
         }
     }
 
+    private void DecreaseFireBarOverTime()
+    {
+        if (CurrentStatus.Hp > 0)
+        {
+            CurrentStatus.Hp -= Time.deltaTime * 1.5f; // 時間経過で体力を減少
+            FireBar.value = CurrentStatus.Hp;
+        }
+        else
+        {
+            Fire.SetActive(false);
+            Smog.SetActive(true);
+            SceneManager.LoadScene("ConversationScene5");
+        }
+    }
 }
