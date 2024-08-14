@@ -6,6 +6,7 @@ public class PickupObj : MonoBehaviour
 {
     [SerializeField] Item.Type itemType;
     Item item;
+    [SerializeField] GameObject explain;
 
     private void Start()
     {
@@ -15,6 +16,12 @@ public class PickupObj : MonoBehaviour
     public void OnClickObj()
     {
         Debug.Log(item);
+        if (item.type == Item.Type.Rope)
+        {
+            explain.SetActive(true);
+
+        }
+
         ItemBox.instance.SetItem(item);
         gameObject.SetActive(false);
     }
