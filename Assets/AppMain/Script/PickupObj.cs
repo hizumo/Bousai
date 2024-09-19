@@ -25,6 +25,10 @@ public class PickupObj : MonoBehaviour
         {
             explain.SetActive(true);
         }
+        else if (item.type == Item.Type.Tanker)
+        {
+            explain.SetActive(true);
+        }
 
         ItemBox.instance.SetItem(item);
         gameObject.SetActive(false);
