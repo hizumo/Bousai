@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AppMain/Scenes/FireExtingusher/Fire_extinguisher_Explain.unity
     guid: ee74a92c4b1d05347964fdc7d4cdfb72
+  - enabled: 1
+    path: Assets/AppMain/Scenes/test.unity
+    guid: 2c6d1a37386154d4180cbbbd8d272d04
   m_configObjects: {}
