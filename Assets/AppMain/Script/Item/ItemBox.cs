@@ -8,6 +8,18 @@ public class ItemBox : MonoBehaviour
     [SerializeField] Slot selectedSlot = null;
 
     public static ItemBox instance;
+
+    private void Start()
+    {
+        if (ItemManager.Instance == null) return;
+
+        // 所持アイテムを取得し、スロットに設定
+        foreach (Item item in ItemManager.Instance.GetOwnedItems())
+        {
+            SetItem(item);
+        }
+    }
+
     private void Awake()
     {
         if(instance == null)
@@ -48,12 +60,14 @@ public class ItemBox : MonoBehaviour
     public bool TryUseItem(Item.Type type)
     {
         // 選択アイテムスロットがあるかどうか
-        if(selectedSlot == null)
+        if (selectedSlot == null)
         {
             return false;
         }
-        if(selectedSlot.GetItem().type == type)
+        if (selectedSlot.GetItem().type == type)
         {
+            // スロット内のアイテムを削除
+            ItemManager.Instance.RemoveItem(type);
             selectedSlot.SetItem(null);
             selectedSlot.HideBgPanel();
             selectedSlot = null;
@@ -61,6 +75,7 @@ public class ItemBox : MonoBehaviour
         }
         return false;
     }
+
 
     public Item GetSelectedItem()
     {

@@ -10,27 +10,32 @@ public class PickupObj : MonoBehaviour
 
     private void Start()
     {
+        // アイテムを生成
         item = ItemGenerater.instance.Spawn(itemType);
+
+        // アイテムがすでに所持されている場合、非表示にする
+        if (ItemManager.Instance != null && ItemManager.Instance.HasItem(itemType))
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void OnClickObj()
     {
         Debug.Log(item);
-        if (item.type == Item.Type.Rope)
-        {
-            explain.SetActive(true);
-
-        }
-        else if(item.type == Item.Type.Bar)
-        {
-            explain.SetActive(true);
-        }
-        else if (item.type == Item.Type.Tanker)
+        if (item.type == Item.Type.Rope ||
+            item.type == Item.Type.Bar ||
+            item.type == Item.Type.Tanker)
         {
             explain.SetActive(true);
         }
 
+        // アイテムを ItemManager に追加
+        ItemManager.Instance.AddItem(item);
+
+        // アイテムを ItemBox に登録
         ItemBox.instance.SetItem(item);
+
         gameObject.SetActive(false);
     }
 }
