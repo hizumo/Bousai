@@ -18,6 +18,18 @@ public class PickupObj : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+
+        if (this.gameObject.CompareTag("Tanker"))
+        {
+            if (keepordestroy.isClear == true)
+            {
+                this.gameObject.SetActive(true);
+            }
+            else
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void OnClickObj()

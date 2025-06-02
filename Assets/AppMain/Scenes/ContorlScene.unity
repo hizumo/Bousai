@@ -2078,7 +2078,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 560029728}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 387e5f695e3b18846a9910e1babb6dd7, type: 3}
+  m_Script: {fileID: 11500000, guid: 585a712a030bb7045acee8ee0edf2989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &568088526
@@ -9040,6 +9040,10 @@ PrefabInstance:
     - target: {fileID: 1724368431017272844, guid: ad9926e569934414ebf8106d9ec1f1da, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724368431017272844, guid: ad9926e569934414ebf8106d9ec1f1da, type: 3}
+      propertyPath: m_TagString
+      value: Tanker
       objectReference: {fileID: 0}
     - target: {fileID: 2064336788412890294, guid: ad9926e569934414ebf8106d9ec1f1da, type: 3}
       propertyPath: m_RootOrder

@@ -14,7 +14,17 @@ public class SetObj : MonoBehaviour
     public static int count = 0; // インスタンスごとに分離
     private void Start()
     {
-
+        if (this.gameObject.CompareTag("Tanker"))
+        {
+            if (keepordestroy.isClear == true)
+            {
+                this.gameObject.SetActive(true);
+            }
+            else
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void OnClickAppear()
@@ -60,6 +70,5 @@ public class SetObj : MonoBehaviour
 
         PlayerController.score += scoreIncrement;
         setObjectDisappear.SetActive(false);
-        Debug.Log(count);
     }
 }
