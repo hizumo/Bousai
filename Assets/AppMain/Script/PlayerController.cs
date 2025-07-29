@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -22,9 +23,13 @@ public class PlayerController : MonoBehaviour
     //イベントパネル
     [SerializeField] GameObject panel;
     [SerializeField] GameObject panel2;
+    [SerializeField] GameObject panel3;
     public Transform target; // 近づくべきオブジェクトのTransform
+    public Transform target3; // 近づくべきオブジェクトのTransform
     private events events1;
+    private events2 events3;
     [SerializeField] GameObject bar;
+    private bool isPanel3ManuallyHidden = false;
 
 
     [SerializeField] GameObject attackHit = null;
@@ -89,6 +94,7 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         events1 = events.go;
+        events3 = events2.go;
         animator = GetComponent<Animator>();
         attackHit.SetActive(false);
         rigid = GetComponent<Rigidbody>();
@@ -233,7 +239,27 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+
+
+        if (events3 == events2.go && isPanel3ManuallyHidden == false)
+        {
+            if (Vector3.Distance(transform.position, target3.position) < 1f)
+            {
+                panel3.SetActive(true);
+            }
+        }
+        else if (events3 == events2.stop)
+        {
+            if (Vector3.Distance(transform.position, target3.position) > 1f)
+            {
+                events3 = events2.go;
+                isPanel3ManuallyHidden = false; // 再度距離が離れたら表示を許可
+            }
+        }
+
     }
+
+
 
     void FixedUpdate()
     {
@@ -398,6 +424,12 @@ public class PlayerController : MonoBehaviour
         stop,
     }
 
+    public enum events2
+    {
+        go,
+        stop,
+    }
+
     public void YesClick()
     {
         StartCoroutine(Events());
@@ -406,6 +438,18 @@ public class PlayerController : MonoBehaviour
     {
         panel.SetActive(false);
     }
+    public void tpClick()
+    {
+       SceneManager.LoadScene("test");
+    }
+    public void NotpClick()
+    {
+        isPanel3ManuallyHidden = true;
+        events3 = events2.stop;
+        panel3.SetActive(false);
+
+    }
+
     IEnumerator Events()
     {
         bar.SetActive(true);

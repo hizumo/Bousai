@@ -18,6 +18,8 @@ public class ZoomPanel : MonoBehaviour
     public void ShowPanel()
     {
         Item item = ItemBox.instance.GetSelectedItem();
+        Debug.Log($"Zoom対象: {item?.type}, prefab name: {item?.zoomObj?.name}");
+
         if (item != null)
         {
             Destroy(zoomObj);

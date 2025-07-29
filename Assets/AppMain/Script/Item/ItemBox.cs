@@ -22,11 +22,12 @@ public class ItemBox : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        instance = this;
+        slots = GetComponentsInChildren<Slot>();
+
+        for (int i = 0; i < slots.Length; i++)
         {
-            instance = this;
-            // slotsにslot要素をコードを入れる方法
-            slots = GetComponentsInChildren<Slot>();
+            slots[i].position = i;
         }
     }
     
@@ -44,8 +45,9 @@ public class ItemBox : MonoBehaviour
 
     public void OnSelectSlot(int position)
     {
+        Debug.Log($"OnSelectSlot called with position = {position}");
         // いったんすべてのスロットの選択パネルを表示する
-        foreach(Slot slot in slots)
+        foreach (Slot slot in slots)
         {
             slot.HideBgPanel();
         }
@@ -54,6 +56,7 @@ public class ItemBox : MonoBehaviour
         if(slots[position].OnSelected())
         {
             selectedSlot = slots[position];
+            Debug.Log($"selectedSlot set: {selectedSlot.GetItem()?.type}");
         }
     }
 

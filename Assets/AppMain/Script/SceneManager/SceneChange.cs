@@ -16,7 +16,7 @@ public class SceneChange : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.P))
         {
-            SceneManager.LoadScene("FireExtingusherScene");
+            SceneManager.LoadScene("test");
         }
     }
 }

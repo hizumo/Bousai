@@ -9,6 +9,8 @@ public class Slot : MonoBehaviour
     [SerializeField]Image image = default;
     [SerializeField]GameObject backgroundPanel = default;
 
+    public int position; // slots配列内の位置（手動設定または初期化時に割り当て）
+
     private void Awake()
     {
         // image = GetComponent<Image>();
@@ -64,5 +66,13 @@ public class Slot : MonoBehaviour
     public void HideBgPanel()
     {
         backgroundPanel.SetActive(false);
+    }
+
+
+    // クリック時に呼ばれる関数
+    public void OnClick()
+    {
+        Debug.Log($"Slot {position} clicked, item = {item?.type}");
+        ItemBox.instance.OnSelectSlot(position);
     }
 }
