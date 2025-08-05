@@ -24,7 +24,7 @@ public class SceneChange2 : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.P))
         {
-            SceneManager.LoadScene("ContorlScene");
+            SceneManager.LoadScene("CrossRoadsScene");
         }
     }
 }

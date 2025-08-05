@@ -47,4 +47,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AppMain/Scenes/test.unity
     guid: 2c6d1a37386154d4180cbbbd8d272d04
+  - enabled: 1
+    path: Assets/AppMain/Scenes/testScene.unity
+    guid: b4ef9f0b238819f44a9e0c19f9536c16
+  - enabled: 1
+    path: Assets/AppMain/Scenes/MainScean/CrossRoadsScene.unity
+    guid: 6a3b28dd1a792d74d885110099859516
+  - enabled: 1
+    path: Assets/AppMain/Scenes/MainScean/SchoolScene.unity
+    guid: 17fbbc38ed3027f46a829a0d157b8f28
   m_configObjects: {}

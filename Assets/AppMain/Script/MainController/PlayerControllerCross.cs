@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerCross : MonoBehaviour
 {
 
     public static int score = 0;
@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip sound1;
     AudioSource audioSource;
 
-    public static PlayerController instance;
+    public static PlayerControllerCross instance;
 
     //イベントパネル
     [SerializeField] GameObject panel;
