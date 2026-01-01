@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using UniGLTF;
 using UnityEngine;
-using VRMShaders;
 
 namespace VRM
 {
@@ -26,7 +25,7 @@ namespace VRM
 
             if (awaitCaller == null)
             {
-                Debug.LogWarning("VrmUtility.LoadAsync: awaitCaller argument is null. ImmediateCaller is used as the default fallback. When playing, we recommend RuntimeOnlyAwaitCaller.");
+                UniGLTFLogger.Warning("VrmUtility.LoadAsync: awaitCaller argument is null. ImmediateCaller is used as the default fallback. When playing, we recommend RuntimeOnlyAwaitCaller.");
                 awaitCaller = new ImmediateCaller();
             }
 
@@ -40,11 +39,12 @@ namespace VRM
                     {
                         materialGen = materialGeneratorCallback(vrm.VrmExtension);
                     }
+                    var importerContextSettings = new ImporterContextSettings(loadAnimation);
                     using (var loader = new VRMImporterContext(
                                vrm,
                                textureDeserializer: textureDeserializer,
                                materialGenerator: materialGen,
-                               loadAnimation: loadAnimation))
+                               settings: importerContextSettings))
                     {
                         if (metaCallback != null)
                         {
@@ -57,7 +57,7 @@ namespace VRM
                 catch (NotVrm0Exception)
                 {
                     // retry
-                    Debug.LogWarning("file extension is vrm. but not vrm ?");
+                    UniGLTFLogger.Warning("file extension is vrm. but not vrm ?");
                     using (var loader = new UniGLTF.ImporterContext(data))
                     {
                         return await loader.LoadAsync(awaitCaller);
@@ -73,7 +73,8 @@ namespace VRM
             MaterialGeneratorCallback materialGeneratorCallback = null,
             MetaCallback metaCallback = null,
             ITextureDeserializer textureDeserializer = null,
-            bool loadAnimation = false
+            bool loadAnimation = false,
+            IVrm0XSpringBoneRuntime springboneRuntime = null
             )
         {
             if (bytes == null)
@@ -83,7 +84,7 @@ namespace VRM
 
             if (awaitCaller == null)
             {
-                Debug.LogWarning("VrmUtility.LoadAsync: awaitCaller argument is null. ImmediateCaller is used as the default fallback. When playing, we recommend RuntimeOnlyAwaitCaller.");
+                UniGLTFLogger.Warning("VrmUtility.LoadAsync: awaitCaller argument is null. ImmediateCaller is used as the default fallback. When playing, we recommend RuntimeOnlyAwaitCaller.");
                 awaitCaller = new ImmediateCaller();
             }
 
@@ -97,11 +98,14 @@ namespace VRM
                     {
                         materialGen = materialGeneratorCallback(vrm.VrmExtension);
                     }
+                    var importerContextSettings = new ImporterContextSettings(loadAnimation: loadAnimation);
                     using (var loader = new VRMImporterContext(
                                vrm,
                                textureDeserializer: textureDeserializer,
                                materialGenerator: materialGen,
-                               loadAnimation: loadAnimation))
+                               settings: importerContextSettings,
+                               springboneRuntime: springboneRuntime
+                               ))
                     {
                         if (metaCallback != null)
                         {
@@ -114,7 +118,7 @@ namespace VRM
                 catch (NotVrm0Exception)
                 {
                     // retry
-                    Debug.LogWarning("file extension is vrm. but not vrm ?");
+                    UniGLTFLogger.Warning("file extension is vrm. but not vrm ?");
                     using (var loader = new UniGLTF.ImporterContext(data))
                     {
                         return await loader.LoadAsync(awaitCaller);

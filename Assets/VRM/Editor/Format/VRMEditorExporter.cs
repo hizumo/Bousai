@@ -6,7 +6,6 @@ using UniGLTF;
 using UniGLTF.MeshUtility;
 using UniGLTF.Utils;
 using UnityEngine;
-using VRMShaders;
 
 namespace VRM
 {
@@ -17,18 +16,24 @@ namespace VRM
         /// </summary>
         /// <param name="path">出力先</param>
         /// <param name="settings">エクスポート設定</param>
-        public static byte[] Export(GameObject exportRoot, VRMMetaObject meta, VRMExportSettings settings)
+        public static byte[] Export(
+            GameObject exportRoot,
+            VRMMetaObject meta,
+            VRMExportSettings settings,
+            IMaterialExporter materialExporter = null
+        )
         {
             List<GameObject> destroy = new List<GameObject>();
             try
             {
-                return Export(exportRoot, meta, settings, destroy);
+                return Export(exportRoot, meta, settings, materialExporter, destroy);
             }
             finally
             {
                 foreach (var x in destroy)
                 {
-                    Debug.LogFormat("destroy: {0}", x.name);
+                    // エラーを引き起こす場合がある
+                    // UniGLTFLogger.LogFormat("destroy: {0}", x.name);
                     GameObject.DestroyImmediate(x);
                 }
             }
@@ -54,7 +59,7 @@ namespace VRM
                 {
                     continue;
                 }
-                
+
                 if (removeUnknown && clip.Preset == BlendShapePreset.Unknown)
                 {
                     continue;
@@ -128,7 +133,7 @@ namespace VRM
                 var newName = sb.ToString();
                 if (!nameCount.ContainsKey(newName))
                 {
-                    Debug.LogWarningFormat("force rename {0} => {1}", transform.name, newName);
+                    UniGLTFLogger.Warning($"force rename {transform.name} => {newName}");
                     transform.name = newName;
                     nameCount.Add(newName, 1);
                     return;
@@ -143,9 +148,12 @@ namespace VRM
         /// <param name="path"></param>
         /// <param name="settings"></param>
         /// <param name="destroy">作業が終わったらDestoryするべき一時オブジェクト</param>
-        static byte[] Export(GameObject exportRoot, VRMMetaObject meta,
-                    VRMExportSettings settings,
-                    List<GameObject> destroy)
+        private static byte[] Export(
+            GameObject exportRoot,
+            VRMMetaObject meta,
+            VRMExportSettings settings,
+            IMaterialExporter materialExporter,
+            List<GameObject> destroy)
         {
             var target = exportRoot;
 
@@ -153,7 +161,7 @@ namespace VRM
             target = GameObject.Instantiate(target);
             destroy.Add(target);
 
-            var metaBehaviour = target.GetComponent<VRMMeta>();
+            var metaBehaviour = target.GetComponentOrNull<VRMMeta>();
             if (metaBehaviour == null)
             {
                 metaBehaviour = target.AddComponent<VRMMeta>();
@@ -167,14 +175,14 @@ namespace VRM
 
             {
                 // copy元
-                var animator = exportRoot.GetComponent<Animator>();
+                var getBone = UniHumanoid.Humanoid.Get_GetBoneTransform(exportRoot);
                 var beforeTransforms = exportRoot.GetComponentsInChildren<Transform>(true);
                 // copy先
                 var afterTransforms = target.GetComponentsInChildren<Transform>(true);
                 // copy先のhumanoidBoneのリストを得る
                 var humanTransforms = CachedEnum.GetValues<HumanBodyBones>()
                     .Where(x => x != HumanBodyBones.LastBone)
-                    .Select(x => animator.GetBoneTransform(x))
+                    .Select(x => getBone(x))
                     .Where(x => x != null)
                     .Select(x => afterTransforms[Array.IndexOf(beforeTransforms, x)]) // copy 先を得る
                     .ToArray();
@@ -198,19 +206,17 @@ namespace VRM
                 }
             }
 
-            // 正規化
             if (settings.PoseFreeze)
             {
-                // BoneNormalizer.Execute は Copy を作って正規化する。UNDO無用
-                target = VRMBoneNormalizer.Execute(target, settings.ForceTPose);
-                destroy.Add(target);
+                using (var backup = new VrmGeometryBackup(target))
+                {
+	                // 正規化
+	                VRMBoneNormalizer.Execute(target, settings.ForceTPose, settings.FreezeMeshUseCurrentBlendShapeWeight);
+	            }
             }
 
-            var fp = target.GetComponent<VRMFirstPerson>();
-
             // 元のBlendShapeClipに変更を加えないように複製
-            var proxy = target.GetComponent<VRMBlendShapeProxy>();
-            if (proxy != null)
+            if (target.TryGetComponent<VRMBlendShapeProxy>(out var proxy))
             {
                 var copyBlendShapeAvatar = CopyBlendShapeAvatar(proxy.BlendShapeAvatar, settings.ReduceBlendshapeClip);
                 proxy.BlendShapeAvatar = copyBlendShapeAvatar;
@@ -231,13 +237,15 @@ namespace VRM
             var data = new UniGLTF.ExportingGltfData();
             var gltfExportSettings = settings.GltfExportSettings;
             using (var exporter = new VRMExporter(data, gltfExportSettings,
-                settings.KeepAnimation ? new EditorAnimationExporter() : null))
+                animationExporter: settings.KeepAnimation ? new EditorAnimationExporter() : null,
+                materialExporter: materialExporter,
+                textureSerializer: new EditorTextureSerializer()))
             {
                 exporter.Prepare(target);
-                exporter.Export(new EditorTextureSerializer());
+                exporter.Export();
             }
             var bytes = data.ToGlbBytes();
-            Debug.LogFormat("Export elapsed {0}", sw.Elapsed);
+            UniGLTFLogger.Log($"Export elapsed {sw.Elapsed}");
             return bytes;
         }
     }

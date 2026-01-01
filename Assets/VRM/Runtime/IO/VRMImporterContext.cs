@@ -5,7 +5,6 @@ using UniGLTF;
 using UnityEngine;
 using System.Threading.Tasks;
 using UniGLTF.Utils;
-using VRMShaders;
 using Object = UnityEngine.Object;
 
 namespace VRM
@@ -21,17 +20,20 @@ namespace VRM
             }
         }
 
+        IVrm0XSpringBoneRuntime _springBoneRuntime;
+
         public VRMImporterContext(
             VRMData data,
             IReadOnlyDictionary<SubAssetKey, Object> externalObjectMap = null,
             ITextureDeserializer textureDeserializer = null,
             IMaterialDescriptorGenerator materialGenerator = null,
-            bool loadAnimation = false)
-            : base(data.Data, externalObjectMap, textureDeserializer, materialGenerator ?? new BuiltInVrmMaterialDescriptorGenerator(data.VrmExtension))
+            ImporterContextSettings settings = null,
+            IVrm0XSpringBoneRuntime springboneRuntime = null)
+            : base(data.Data, externalObjectMap, textureDeserializer, materialGenerator ?? VrmMaterialDescriptorGeneratorUtility.GetValidVrmMaterialDescriptorGenerator(data.VrmExtension), settings ?? new ImporterContextSettings(false))
         {
             _data = data;
             TextureDescriptorGenerator = new VrmTextureDescriptorGenerator(Data, VRM);
-            LoadAnimation = loadAnimation;
+            _springBoneRuntime = springboneRuntime ?? new Vrm0XSpringBoneDefaultRuntime();
         }
 
         #region OnLoad
@@ -59,8 +61,8 @@ namespace VRM
 
             using (MeasureTime("VRM LoadSecondary"))
             {
-                VRMSpringUtility.LoadSecondary(Root.transform, TryGetNode,
-                VRM.secondaryAnimation);
+                VRMSpringUtility.LoadSecondary(Root.transform, TryGetNode, VRM.secondaryAnimation);
+                await _springBoneRuntime.InitializeAsync(Root, awaitCaller);
             }
             await awaitCaller.NextFrame();
 
@@ -160,7 +162,7 @@ namespace VRM
                     // fallback
                     asset.Preset = CachedEnum.ParseOrDefault<BlendShapePreset>(group.name, true);
                 }
-                asset.Values = group.binds.Select(x =>
+                asset.Values = group.binds.Where(x => x.mesh >= 0 && x.mesh < Meshes.Count).Select(x =>
                 {
                     var mesh = Meshes[x.mesh].Mesh;
                     var node = transformMeshTable[mesh];
@@ -257,7 +259,7 @@ namespace VRM
         {
             AvatarDescription = VRM.humanoid.ToDescription(Nodes);
             AvatarDescription.name = "AvatarDescription";
-            HumanoidAvatar = AvatarDescription.CreateAvatar(Root.transform);
+            HumanoidAvatar = UniHumanoid.HumanoidLoader.BuildHumanAvatarFromMap(Root.transform, AvatarDescription.ToHumanoidMap(Root.transform));
             if (!HumanoidAvatar.isValid || !HumanoidAvatar.isHuman)
             {
                 throw new Exception("fail to create avatar");
@@ -269,11 +271,7 @@ namespace VRM
             humanoid.Avatar = HumanoidAvatar;
             humanoid.Description = AvatarDescription;
 
-            var animator = Root.GetComponent<Animator>();
-            if (animator == null)
-            {
-                animator = Root.AddComponent<Animator>();
-            }
+            var animator = Root.GetOrAddComponent<Animator>();
             animator.avatar = HumanoidAvatar;
 
             // default としてとりあえず設定する

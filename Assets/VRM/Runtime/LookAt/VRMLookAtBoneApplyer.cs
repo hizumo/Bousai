@@ -29,8 +29,7 @@ namespace VRM
 
         public void OnImported(VRMImporterContext context)
         {
-            var animator = GetComponent<Animator>();
-            if (animator != null)
+            if (TryGetComponent<Animator>(out var animator))
             {
                 LeftEye = OffsetOnTransform.Create(animator.GetBoneTransform(HumanBodyBones.LeftEye));
                 RightEye = OffsetOnTransform.Create(animator.GetBoneTransform(HumanBodyBones.RightEye));
@@ -55,11 +54,11 @@ namespace VRM
 
         void Start()
         {
-            m_head = GetComponent<VRMLookAtHead>();
+            m_head = this.GetComponentOrNull<VRMLookAtHead>();
             if (m_head == null)
             {
                 enabled = false;
-                Debug.LogError("[VRMLookAtBoneApplyer]VRMLookAtHead not found");
+                UniGLTFLogger.Log("[VRMLookAtBoneApplyer]VRMLookAtHead not found");
                 return;
             }
             m_head.YawPitchChanged += ApplyRotations;

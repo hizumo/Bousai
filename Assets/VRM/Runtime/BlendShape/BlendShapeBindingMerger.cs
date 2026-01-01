@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UniGLTF;
 using UnityEngine;
 
 namespace VRM
@@ -51,7 +52,7 @@ namespace VRM
                         SkinnedMeshRenderer target = null;
                         if (_target != null)
                         {
-                            target = _target.GetComponent<SkinnedMeshRenderer>();
+                            target = _target.GetComponentOrNull<SkinnedMeshRenderer>();
                         }
                         if (target != null)
                         {
@@ -64,13 +65,13 @@ namespace VRM
                             }
                             else
                             {
-                                Debug.LogWarningFormat("Invalid blendshape binding: {0}: {1}", target.name, binding);
+                                UniGLTFLogger.Warning($"Invalid blendshape binding: {target.name}: {binding}");
                             }
 
                         }
                         else
                         {
-                            Debug.LogWarningFormat("SkinnedMeshRenderer: {0} not found", binding.RelativePath);
+                            UniGLTFLogger.Warning($"SkinnedMeshRenderer: {binding.RelativePath} not found");
                         }
                     }
                 }

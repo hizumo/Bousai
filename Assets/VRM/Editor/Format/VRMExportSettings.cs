@@ -20,6 +20,12 @@ namespace VRM
         public bool PoseFreeze = true;
 
         /// <summary>
+        /// FreezeBlendShape
+        /// </summary>
+        [Tooltip("when freeze mesh, blendShpae base use current weight")]
+        public bool FreezeMeshUseCurrentBlendShapeWeight = true;
+
+        /// <summary>
         /// BlendShapeのシリアライズにSparseAccessorを使う
         /// </summary>
         [Tooltip("Use sparse accessor for blendshape. This may reduce vrm size")]
@@ -66,7 +72,7 @@ namespace VRM
             UseSparseAccessorForMorphTarget = UseSparseAccessor,
             ExportOnlyBlendShapePosition = OnlyBlendshapePosition,
             DivideVertexBuffer = DivideVertexBuffer,
-            KeepVertexColor = KeepVertexColor,
+            ExportVertexColor = KeepVertexColor,
         };
 
         public GameObject Root { get; set; }

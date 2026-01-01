@@ -7,9 +7,10 @@ namespace VRM
 {
     public static class VRMImporterMenu
     {
+        public const string MENU_NAME = "Import VRM 0.x...";
         public static void OpenImportMenu()
         {
-            var path = EditorUtility.OpenFilePanel("open vrm", "", "vrm");
+            var path = EditorUtility.OpenFilePanel(MENU_NAME + ": open vrm", "", "vrm");
             if (string.IsNullOrEmpty(path))
             {
                 return;
@@ -25,7 +26,7 @@ namespace VRM
                 // import vrm to asset
                 if (path.StartsWithUnityAssetPath())
                 {
-                    Debug.LogWarningFormat("disallow import from folder under the Assets");
+                    UniGLTFLogger.Warning("disallow import from folder under the Assets");
                     return;
                 }
 

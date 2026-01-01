@@ -3985,7 +3985,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ba44253146523694c85e1bd29ca98f20, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.39
+      value: 1.97
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ba44253146523694c85e1bd29ca98f20, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3993,7 +3993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ba44253146523694c85e1bd29ca98f20, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.14
+      value: 6.15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ba44253146523694c85e1bd29ca98f20, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5235,7 +5235,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u30EF\u30FC\u30D7\u3057\u307E\u3059\u304B\uFF1F"
+  m_Text: "\u524D\u306B\u623B\u308A\u307E\u3059\u304B\uFF1F"
 --- !u!222 &1196341922
 CanvasRenderer:
   m_ObjectHideFlags: 0

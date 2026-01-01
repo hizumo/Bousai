@@ -18,7 +18,7 @@ namespace VRM
         {
             var colliders = new List<VRMSpringBoneColliderGroup>();
             foreach (var vrmColliderGroup in root.Traverse()
-                .Select(x => x.GetComponent<VRMSpringBoneColliderGroup>())
+                .Select(x => x.GetComponentOrNull<VRMSpringBoneColliderGroup>())
                 .Where(x => x != null))
             {
                 var index = nodes.IndexOf(vrmColliderGroup.transform);
@@ -135,7 +135,7 @@ namespace VRM
                 }
                 else
                 {
-                    Debug.LogError("Broken collider group");
+                    UniGLTFLogger.Error("Broken collider group");
                     break;
                 }
             }
@@ -145,7 +145,7 @@ namespace VRM
                 foreach (var boneGroup in secondaryAnimation.boneGroups)
                 {
                     var vrmBoneGroup = secondary.gameObject.AddComponent<VRMSpringBone>();
-                    if (tryGetNode(boneGroup.center, out var node))
+                    if (boneGroup.center != -1 && tryGetNode(boneGroup.center, out var node))
                     {
                         vrmBoneGroup.m_center = node;
                     }

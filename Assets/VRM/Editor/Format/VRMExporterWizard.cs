@@ -11,10 +11,11 @@ namespace VRM
 {
     public class VRMExporterWizard : ExportDialogBase
     {
+        public const string MENU_NAME = "Export VRM 0.x...";
         public static void OpenExportMenu()
         {
             var window = (VRMExporterWizard)GetWindow(typeof(VRMExporterWizard));
-            window.titleContent = new GUIContent("VRM Exporter");
+            window.titleContent = new GUIContent(MENU_NAME);
             window.Show();
         }
 
@@ -78,8 +79,7 @@ namespace VRM
                 }
                 else
                 {
-                    var meta = root.GetComponent<VRMMeta>();
-                    if (meta != null)
+                    if (root.TryGetComponent<VRMMeta>(out var meta))
                     {
                         Meta = meta.Meta;
                     }
@@ -149,14 +149,12 @@ namespace VRM
 
             yield return VRMSpringBoneValidator.Validate;
 
-            var firstPerson = State.ExportRoot.GetComponent<VRMFirstPerson>();
-            if (firstPerson != null)
+            if (State.ExportRoot.TryGetComponent<VRMFirstPerson>(out var firstPerson))
             {
                 yield return firstPerson.Validate;
             }
 
-            var proxy = State.ExportRoot.GetComponent<VRMBlendShapeProxy>();
-            if (proxy != null)
+            if (State.ExportRoot.TryGetComponent<VRMBlendShapeProxy>(out var proxy))
             {
                 yield return proxy.Validate;
             }
@@ -182,7 +180,7 @@ namespace VRM
             //
             // T-Pose
             //
-            if (State.ExportRoot.GetComponent<Animator>() != null)
+            if (State.ExportRoot.TryGetComponent<Animator>(out var animator))
             {
                 var backup = GUI.enabled;
                 GUI.enabled = State.ExportRoot.scene.IsValid();
@@ -224,7 +222,7 @@ namespace VRM
                             }
                             else
                             {
-                                Debug.LogWarning("not found");
+                                UniGLTFLogger.Warning("not found");
                             }
                         }
                     }
@@ -304,7 +302,7 @@ namespace VRM
                 case Tabs.BlendShape:
                     if (State.ExportRoot)
                     {
-                        OnBlendShapeGUI(State.ExportRoot.GetComponent<VRMBlendShapeProxy>());
+                        OnBlendShapeGUI(State.ExportRoot.GetComponentOrNull<VRMBlendShapeProxy>());
                     }
                     break;
 

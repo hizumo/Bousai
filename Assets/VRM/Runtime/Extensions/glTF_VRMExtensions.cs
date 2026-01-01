@@ -25,7 +25,7 @@ namespace VRM
             }
             if (string.IsNullOrEmpty((binding.RelativePath)))
             {
-                Debug.LogWarning("binding.RelativePath is null");
+                UniGLTFLogger.Warning("binding.RelativePath is null");
                 return null;
             }
             var found = root.transform.Find(binding.RelativePath);
@@ -35,50 +35,51 @@ namespace VRM
                 found = root.GetComponentsInChildren<Transform>().FirstOrDefault(x => x.name == name);
                 if (found == null)
                 {
-                    Debug.LogWarning($"{binding.RelativePath} not found");
+                    UniGLTFLogger.Warning($"{binding.RelativePath} not found");
                     return null;
                 }
                 else
                 {
-                    Debug.LogWarning($"fall back '{binding.RelativePath}' => '{found.RelativePathFrom(root)}'");
+                    UniGLTFLogger.Warning($"fall back '{binding.RelativePath}' => '{found.RelativePathFrom(root)}'");
                 }
             }
-            var renderer = found.GetComponent<SkinnedMeshRenderer>();
-            if (renderer == null)
+            if (found.TryGetComponent<SkinnedMeshRenderer>(out var renderer))
+            {
+                if (!renderer.gameObject.activeInHierarchy)
+                {
+                    return null;
+                }
+
+                var mesh = renderer.sharedMesh;
+                var meshIndex = exporter.Meshes.IndexOf(mesh);
+                if (meshIndex == -1)
+                {
+                    return null;
+                }
+
+                if (!exporter.MeshBlendShapeIndexMap.TryGetValue(mesh, out Dictionary<int, int> blendShapeIndexMap))
+                {
+                    // この Mesh は  エクスポートされていない
+                    return null;
+                }
+
+                if (!blendShapeIndexMap.TryGetValue(binding.Index, out int blendShapeIndex))
+                {
+                    // この blendShape は エクスポートされていない(空だった？)
+                    return null;
+                }
+
+                return new glTF_VRM_BlendShapeBind
+                {
+                    mesh = meshIndex,
+                    index = blendShapeIndex,
+                    weight = binding.Weight,
+                };
+            }
+            else
             {
                 return null;
             }
-
-            if (!renderer.gameObject.activeInHierarchy)
-            {
-                return null;
-            }
-
-            var mesh = renderer.sharedMesh;
-            var meshIndex = exporter.Meshes.IndexOf(mesh);
-            if (meshIndex == -1)
-            {
-                return null;
-            }
-
-            if (!exporter.MeshBlendShapeIndexMap.TryGetValue(mesh, out Dictionary<int, int> blendShapeIndexMap))
-            {
-                // この Mesh は  エクスポートされていない
-                return null;
-            }
-
-            if (!blendShapeIndexMap.TryGetValue(binding.Index, out int blendShapeIndex))
-            {
-                // この blendShape は エクスポートされていない(空だった？)
-                return null;
-            }
-
-            return new glTF_VRM_BlendShapeBind
-            {
-                mesh = meshIndex,
-                index = blendShapeIndex,
-                weight = binding.Weight,
-            };
         }
 
         public static void Add(this glTF_VRM_BlendShapeMaster master,
@@ -97,7 +98,6 @@ namespace VRM
                     var bind = Create(exporter.Copy.transform, value, exporter);
                     if (bind == null)
                     {
-                        // Debug.LogFormat("{0}: skip blendshapebind", clip.name);
                         continue;
                     }
                     bindList.Add(bind);

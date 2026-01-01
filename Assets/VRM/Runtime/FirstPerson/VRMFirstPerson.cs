@@ -38,8 +38,7 @@ namespace VRM
                         return renderer.sharedMesh;
                     }
 
-                    var filter = Renderer.GetComponent<MeshFilter>();
-                    if (filter != null)
+                    if (Renderer.TryGetComponent<MeshFilter>(out var filter))
                     {
                         return filter.sharedMesh;
                     }
@@ -57,10 +56,25 @@ namespace VRM
             var dst = _dst.AddComponent<VRMFirstPerson>();
             dst.FirstPersonBone = map[FirstPersonBone];
             dst.FirstPersonOffset = FirstPersonOffset;
-            dst.Renderers = Renderers.Select(x =>
+            dst.Renderers = Renderers
+            .Where(x =>
+            {
+                if (x.Renderer == null || x.Renderer.transform == null)
+                {
+                    UniGLTFLogger.Warning("[VRMFirstPerson] Renderer is null", this);
+                    return false;
+                }
+                if (!map.ContainsKey(x.Renderer.transform))
+                {
+                    UniGLTFLogger.Warning("[VRMFirstPerson] Cannot copy. Not found ?", this);
+                    return false;
+                }
+                return true;
+            })
+            .Select(x =>
             {
                 var mapped = map[x.Renderer.transform];
-                var renderer = mapped.GetComponent<Renderer>();
+                var renderer = mapped.GetComponentOrNull<Renderer>();
                 return new VRMFirstPerson.RendererFirstPersonFlags
                 {
                     Renderer = renderer,
@@ -72,8 +86,7 @@ namespace VRM
         public void SetDefault()
         {
             FirstPersonOffset = new Vector3(0, 0.06f, 0);
-            var animator = GetComponent<Animator>();
-            if (animator != null)
+            if (TryGetComponent<Animator>(out var animator))
             {
                 FirstPersonBone = animator.GetBoneTransform(HumanBodyBones.Head);
             }
@@ -367,13 +380,23 @@ namespace VRM
             }
         }
 
+        /// <summary>
+        /// for MeshUtility interface
+        /// </summary>
+        public Mesh ProcessFirstPerson(Transform firstPersonBone, SkinnedMeshRenderer smr)
+        {
+            SetVisibilityFunc dummy = (Renderer renderer, bool firstPerson, bool thirdPerson) =>
+            {
+            };
+            return CreateHeadlessModel(smr, FirstPersonBone, dummy);
+        }
+
         void OnDestroy()
         {
             foreach (var mesh in m_headlessMeshes)
             {
                 if (mesh != null)
                 {
-                    // Debug.LogFormat("[VRMFirstPerson] OnDestroy: {0}", mesh);
                     UnityEngine.Object.Destroy(mesh);
                 }
             }

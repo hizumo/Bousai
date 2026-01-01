@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UniGLTF;
+
 #if UNITY_2018_1_OR_NEWER
 using UnityEditor.Build.Reporting;
 #endif
@@ -22,6 +24,9 @@ namespace VRM.DevOnly.PackageExporter
         }
     }
 
+    /// <summary>
+    /// TODO: 本来このクラスは「パッケージとしての UniVRM」のスコープのクラスであるが、「UPM Package VRM」のスコープにコードがあるので変
+    /// </summary>
     public static class VRMExportUnityPackage
     {
         static string GetProjectRoot()
@@ -73,7 +78,7 @@ namespace VRM.DevOnly.PackageExporter
             var path = string.Format("{0}/{1}-{2}_{3}.unitypackage",
                 folder,
                 prefix,
-                VRMVersion.VERSION,
+                UniGLTF.PackageVersion.VERSION,
                 GetGitHash(Application.dataPath + "/VRM").Substring(0, 4)
                 ).Replace("\\", "/");
 
@@ -136,21 +141,39 @@ namespace VRM.DevOnly.PackageExporter
         /// <summary>
         /// This is call from Jenkins build
         ///
-        /// -quit -batchMode -executeMethod VRM.DevOnly.PackageExporter.VRMExportUnityPackage.CreateUnityPackageWithBuild
+        /// -batchMode -silent-crashes -projectPath . -executeMethod VRM.DevOnly.PackageExporter.VRMExportUnityPackage.CreateUnityPackageWithBuild
         /// </summary>
         public static void CreateUnityPackageWithBuild()
         {
-            var folder = GetProjectRoot();
-            if (!Directory.Exists(folder))
+            try
             {
-                Directory.CreateDirectory(folder);
-            }
+                UniGLTFLogger.Log($"[{nameof(VRMExportUnityPackage)}] Start CreateUnityPackageWithBuild...");
+                var folder = GetProjectRoot();
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
 
-            if (!BuildTestScene())
-            {
-                Debug.LogError("Failed to build test scenes");
+                UniGLTFLogger.Log($"[{nameof(VRMExportUnityPackage)}] Try to build test scenes...");
+                BuildTestScene();
+
+                UniGLTFLogger.Log($"[{nameof(VRMExportUnityPackage)}] Create UnityPackages...");
+                CreateUnityPackages(folder);
+
+                UniGLTFLogger.Log($"[{nameof(VRMExportUnityPackage)}] Finish CreateUnityPackageWithBuild");
+                if (Application.isBatchMode)
+                {
+                    EditorApplication.Exit(0);
+                }
             }
-            CreateUnityPackages(folder);
+            catch (Exception e)
+            {
+                UniGLTFLogger.Exception(e);
+                if (Application.isBatchMode)
+                {
+                    EditorApplication.Exit(1);
+                }
+            }
         }
 
         public class GlobList
@@ -185,8 +208,13 @@ namespace VRM.DevOnly.PackageExporter
             }
         }
 
-        public static void CreateUnityPackages(string outputDir)
+        private static void CreateUnityPackages(string outputDir)
         {
+            if (!VRMSampleCopy.Validate())
+            {
+                throw new Exception("SampleCopy is not same !");
+            }
+
             {
                 var packages = new[]{
                     // VRM
@@ -229,41 +257,44 @@ namespace VRM.DevOnly.PackageExporter
             }
         }
 
-        public static void CreateUnityPackage(
+        private static void CreateUnityPackage(
             string outputDir,
             PackageInfo package
             )
         {
             var targetFileNames = package.List.SelectMany(x => x.Files).ToArray();
 
-            Debug.LogFormat("Package '{0}' will include {1} files...", package.Name, targetFileNames.Count());
-            Debug.LogFormat("{0}", string.Join("", targetFileNames.Select((x, i) => string.Format("[{0:##0}] {1}\n", i, x)).ToArray()));
+            UniGLTFLogger.Log($"Package '{package.Name}' will include {targetFileNames.Count()} files...");
+            UniGLTFLogger.Log($"{string.Join("", targetFileNames.Select((x, i) => string.Format("[{0:##0}] {1}\n", i, x)).ToArray())}");
 
             var path = MakePackagePathName(outputDir, package.Name);
             AssetDatabase.ExportPackage(targetFileNames, path, ExportPackageOptions.Default);
         }
 
-        public static bool BuildTestScene()
+        private static void BuildTestScene()
         {
-            var levels = new string[] { "Assets/VRM.Samples/Scenes/VRMRuntimeLoaderSample.unity" };
-            return Build(levels);
+            var levels = new string[]
+            {
+                "Assets/UniGLTF_Samples/GltfViewer/GltfViewer.unity",
+                "Assets/VRM_Samples/SimpleViewer/SimpleViewer.unity",
+                "Assets/VRM10_Samples/VRM10Viewer/VRM10Viewer.unity",
+            };
+            Build(levels);
         }
 
-        public static bool Build(string[] levels)
+        private static void Build(string[] levels)
         {
             var buildPath = Path.GetFullPath(Application.dataPath + "/../build/build.exe");
-            Debug.LogFormat("BuildPath: {0}", buildPath);
+            UniGLTFLogger.Log($"BuildPath: {buildPath}");
             var build = BuildPipeline.BuildPlayer(levels,
                 buildPath,
                 BuildTarget.StandaloneWindows,
                 BuildOptions.None
             );
-#if UNITY_2018_1_OR_NEWER
-            var isSuccess = build.summary.result == BuildResult.Succeeded;
-#else
-            var isSuccess = !string.IsNullOrEmpty(build);
-#endif
-            return isSuccess;
+            if (build.summary.result != BuildResult.Succeeded)
+            {
+                throw new Exception("Failed to build scenes");
+            }
         }
     }
 }

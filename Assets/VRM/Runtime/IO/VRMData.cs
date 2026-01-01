@@ -1,4 +1,7 @@
-﻿using UniGLTF;
+﻿using System;
+using System.Linq;
+using UniGLTF;
+using UniGLTF.Utils;
 
 namespace VRM
 {
@@ -18,14 +21,17 @@ namespace VRM
             VrmExtension = vrm;
 
             UpdateMigrationFlags(Data.MigrationFlags, VrmExtension.exporterVersion);
+
+            // ヒューマノイド向け
+            ForceGltfNodeUniqueName.Process(Data.GLTF.nodes);
         }
 
         private static void UpdateMigrationFlags(MigrationFlags migrationFlags, string exportedVrmVersionString)
         {
-            if (!VRMVersion.ParseVersion(exportedVrmVersionString, out var exportedVrmVersion)) return;
+            if (!PackageVersion.ParseVersion(exportedVrmVersionString, out var exportedVrmVersion)) return;
 
-            migrationFlags.IsBaseColorFactorGamma = VRMVersion.IsNewer(
-                new VRMVersion.Version
+            migrationFlags.IsBaseColorFactorGamma = PackageVersion.IsNewer(
+                new PackageVersion.Version
                 {
                     Major = 0,
                     Minor = 54,
@@ -35,8 +41,8 @@ namespace VRM
                 exportedVrmVersion
             );
 
-            migrationFlags.IsRoughnessTextureValueSquared = VRMVersion.IsNewer(
-                new VRMVersion.Version
+            migrationFlags.IsRoughnessTextureValueSquared = PackageVersion.IsNewer(
+                new PackageVersion.Version
                 {
                     Major = 0,
                     Minor = 69,
@@ -45,8 +51,8 @@ namespace VRM
                 },
                 exportedVrmVersion
             );
-            migrationFlags.IsEmissiveFactorGamma = VRMVersion.IsNewer(
-                new VRMVersion.Version
+            migrationFlags.IsEmissiveFactorGamma = PackageVersion.IsNewer(
+                new PackageVersion.Version
                 {
                     Major = 0,
                     Minor = 107,

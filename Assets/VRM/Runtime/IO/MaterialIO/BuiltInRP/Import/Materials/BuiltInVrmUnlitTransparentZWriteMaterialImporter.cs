@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using MToon;
 using UniGLTF;
 using UnityEngine;
-using VRMShaders;
 using RenderMode = MToon.RenderMode;
 
 namespace VRM
@@ -168,7 +167,7 @@ namespace VRM
                 vectors,
                 actions);
 
-            Debug.LogWarning($"fallback: {UnlitTransparentZWriteShaderName} => {MToon.Utils.ShaderName}");
+            UniGLTFLogger.Warning($"fallback: {UnlitTransparentZWriteShaderName} => {MToon.Utils.ShaderName}");
             return true;
         }
     }

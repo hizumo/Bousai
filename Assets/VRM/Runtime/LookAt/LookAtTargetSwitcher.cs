@@ -20,8 +20,13 @@ namespace VRM
 
         private void Reset()
         {
+#if UNITY_2022_3_OR_NEWER
+            m_lookAtHead = GameObject.FindFirstObjectByType<VRMLookAtHead>();
+            m_blinker = GameObject.FindFirstObjectByType<Blinker>();
+#else
             m_lookAtHead = GameObject.FindObjectOfType<VRMLookAtHead>();
             m_blinker = GameObject.FindObjectOfType<Blinker>();
+#endif
         }
 
         float CalcScore(Transform target)
@@ -56,7 +61,6 @@ namespace VRM
             if (target != m_lastTarget)
             {
                 // blink
-                //Debug.Log("request");
                 m_lastTarget = target;
                 m_blinker.Request = true;
             }

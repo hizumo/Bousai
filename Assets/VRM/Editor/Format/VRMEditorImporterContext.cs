@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UniGLTF;
 using UnityEditor;
 using UnityEngine;
-using VRMShaders;
 
 namespace VRM
 {
@@ -121,7 +119,7 @@ namespace VRM
                 if (Symbols.VRM_DEVELOP)
                 {
                     // 来ない？
-                    Debug.LogWarning($"{o} already exists. skip write");
+                    UniGLTFLogger.Warning($"{o} already exists. skip write");
                 }
                 return;
             }
@@ -154,13 +152,13 @@ namespace VRM
             // Create or update Main Asset
             if (m_prefabPath.IsFileExists)
             {
-                Debug.LogFormat("replace prefab: {0}", m_prefabPath);
+                UniGLTFLogger.Log($"replace prefab: {m_prefabPath}");
                 var prefab = m_prefabPath.LoadAsset<GameObject>();
                 PrefabUtility.SaveAsPrefabAssetAndConnect(root, m_prefabPath.Value, InteractionMode.AutomatedAction);
             }
             else
             {
-                Debug.LogFormat("create prefab: {0}", m_prefabPath);
+                UniGLTFLogger.Log($"create prefab: {m_prefabPath}");
                 PrefabUtility.SaveAsPrefabAssetAndConnect(root, m_prefabPath.Value, InteractionMode.AutomatedAction);
             }
 

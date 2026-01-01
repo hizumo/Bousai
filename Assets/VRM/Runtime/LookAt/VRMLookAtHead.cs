@@ -80,17 +80,17 @@ namespace VRM
 
         void Awake()
         {
-            var animator = GetComponent<Animator>();
+            var animator = this.GetComponentOrNull<Animator>();
             if (animator == null)
             {
-                Debug.LogWarning("animator is not found");
+                UniGLTFLogger.Warning("animator is not found");
                 return;
             }
 
             var head = animator.GetBoneTransform(HumanBodyBones.Head);
             if (head == null)
             {
-                Debug.LogWarning("head is not found");
+                UniGLTFLogger.Warning("head is not found");
                 return;
             }
 

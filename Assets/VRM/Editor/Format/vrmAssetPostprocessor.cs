@@ -5,8 +5,6 @@ using System.Linq;
 using UniGLTF;
 using UnityEditor;
 using UnityEngine;
-using VRMShaders;
-
 
 namespace VRM
 {
@@ -25,7 +23,7 @@ namespace VRM
 
                 if (unityPath.IsStreamingAsset)
                 {
-                    Debug.LogFormat("Skip StreamingAssets: {0}", path);
+                    UniGLTFLogger.Log($"Skip StreamingAssets: {path}");
                     continue;
                 }
 
@@ -61,7 +59,7 @@ namespace VRM
         {
             if (!prefabPath.IsUnderWritableFolder)
             {
-                Debug.LogWarningFormat("out of Asset or writable Packages folder: {0}", prefabPath);
+                UniGLTFLogger.Warning($"out of Asset or writable Packages folder: {prefabPath}");
                 return;
             }
 
@@ -78,15 +76,16 @@ namespace VRM
                 var map = texturePaths
                     .Select(x => x.LoadAsset<Texture>())
                     .ToDictionary(x => new SubAssetKey(x), x => x as UnityEngine.Object);
+                var settings = new ImporterContextSettings();
 
                 // 確実に Dispose するために敢えて再パースしている
                 using (var data = new GlbFileParser(vrmPath).Parse())
-                using (var context = new VRMImporterContext(new VRMData(data), externalObjectMap: map, loadAnimation: true))
+                using (var context = new VRMImporterContext(new VRMData(data), externalObjectMap: map, settings: settings))
                 {
                     var editor = new VRMEditorImporterContext(context, prefabPath);
                     foreach (var textureInfo in context.TextureDescriptorGenerator.Get().GetEnumerable())
                     {
-                        VRMShaders.TextureImporterConfigurator.Configure(textureInfo, context.TextureFactory.ExternalTextures);
+                        TextureImporterConfigurator.Configure(textureInfo, context.TextureFactory.ExternalTextures);
                     }
                     var loaded = context.Load();
                     editor.SaveAsAsset(loaded);

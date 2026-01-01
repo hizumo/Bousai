@@ -1,9 +1,7 @@
 ﻿using System;
 using UniGLTF;
-using UniGLTF.ShaderPropExporter;
 using UnityEngine;
-using VRMShaders;
-using ColorSpace = VRMShaders.ColorSpace;
+using ColorSpace = UniGLTF.ColorSpace;
 
 namespace VRM
 {
@@ -86,7 +84,7 @@ namespace VRM
                                 }
                                 if (value == -1)
                                 {
-                                    Debug.LogFormat("not found {0}", texture.name);
+                                    UniGLTFLogger.Warning($"not found {texture.name}");
                                 }
                                 else
                                 {

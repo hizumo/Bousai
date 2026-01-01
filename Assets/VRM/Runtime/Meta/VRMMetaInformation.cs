@@ -54,8 +54,7 @@ namespace VRM
         [ContextMenu("CreateThumbnail")]
         void CreateThumbnailMenu()
         {
-            var lookAt = GetComponent<VRMLookAt>();
-            if (lookAt != null)
+            if(TryGetComponent<VRMLookAt>(out var lookAt))
             {
                 var texture = lookAt.CreateThumbnail();
 
@@ -99,7 +98,7 @@ namespace VRM
                 if (Thumbnail.width != 2048 || Thumbnail.height != 2048)
                 {
                     Thumbnail = null;
-                    Debug.LogError("Thumbnail must 2048 x 2048");
+                    UniGLTFLogger.Error("Thumbnail must 2048 x 2048");
                 }
             }
         }

@@ -176,7 +176,7 @@ namespace VRM
         {
             serializedObject.Update();
 
-            if (VRMVersion.IsNewer(m_exporterVersion.stringValue))
+            if (PackageVersion.IsNewer(m_exporterVersion.stringValue))
             {
                 // モデルのバージョンが、ライブラリのバージョンより新しい
                 EditorGUILayout.HelpBox("Check UniVRM new version.", MessageType.Warning);
@@ -327,7 +327,6 @@ namespace VRM
         {
             var r = GUILayoutUtility.GetRect(GUIContent.none, GUIStyle.none, GUILayout.Height(EditorGUIUtility.singleLineHeight));
             var (left, right) = FixedRight(r, 64);
-            // Debug.Log($"{left}, {right}");
             EditorGUI.LabelField(left, label);
             EditorGUI.PropertyField(right, prop, new GUIContent(""), false);
         }
