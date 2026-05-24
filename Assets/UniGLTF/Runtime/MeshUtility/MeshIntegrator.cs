@@ -93,7 +93,7 @@ namespace UniGLTF.MeshUtility
             setter(AddBoneIfUnique(t, bindPoses[boneIndex]), weight);
         }
 
-        void Push(MeshRenderer renderer)
+        public void Push(MeshRenderer renderer)
         {
             var meshFilter = renderer.GetComponentOrThrow<MeshFilter>();
             var mesh = meshFilter.sharedMesh;
@@ -358,7 +358,7 @@ namespace UniGLTF.MeshUtility
             return mesh;
         }
 
-        MeshIntegrationResult Integrate(string name, BlendShapeOperation op)
+        public MeshIntegrationResult Integrate(string name, BlendShapeOperation op)
         {
             if (_Bones.Count != _BindPoses.Count)
             {

@@ -86,7 +86,12 @@ namespace UniGLTF.MeshUtility
                     }
             }
 
-            return integrator.Integrate(onlyBlendShapeRenderers);
+            var blendShapeOp = onlyBlendShapeRenderers == MeshEnumerateOption.OnlyWithBlendShape
+                ? MeshIntegrator.BlendShapeOperation.Use
+                : onlyBlendShapeRenderers == MeshEnumerateOption.All
+                    ? MeshIntegrator.BlendShapeOperation.Split
+                    : MeshIntegrator.BlendShapeOperation.None;
+            return integrator.Integrate(go.name, blendShapeOp);
         }
 
         public static IEnumerable<SkinnedMeshRenderer> EnumerateSkinnedMeshRenderer(Transform root, MeshEnumerateOption hasBlendShape)
@@ -177,7 +182,7 @@ namespace UniGLTF.MeshUtility
             // Add integrated
             foreach (var result in results)
             {
-                result.IntegratedRenderer.transform.SetParent(copy.transform, false);
+                result.AddIntegratedRendererTo(copy);
             }
         }
     }

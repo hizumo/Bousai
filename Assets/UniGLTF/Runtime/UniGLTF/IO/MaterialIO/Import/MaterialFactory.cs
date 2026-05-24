@@ -97,7 +97,7 @@ namespace UniGLTF
         /// </summary>
         public Task<Material> GetDefaultMaterialAsync(IAwaitCaller awaitCaller)
         {
-            return LoadAsync(m_defaultMaterialParams, (_, _) => null, awaitCaller);
+            return LoadAsync(m_defaultMaterialParams, (subAssetKey, awaitCaller2) => null, awaitCaller);
         }
 
         public async Task<Material> LoadAsync(MaterialDescriptor matDesc, GetTextureAsyncFunc getTexture, IAwaitCaller awaitCaller)

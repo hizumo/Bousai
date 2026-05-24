@@ -16,8 +16,8 @@ namespace UniGLTF
             };
 
             ForceTransformUniqueName.Process(nodes,
-                static node => node.name,
-                static (node, name) => node.name = name,
+                node => node.name,
+                (node, name) => node.name = name,
                 node =>
                 {
                     var parent = getParent(node);

@@ -44,10 +44,10 @@ namespace UniGLTF
 
         public void TransferOwnership(TakeResponsibilityForDestroyObjectFunc take)
         {
-            foreach (var (key, o) in _runtimeClips.ToArray())
+            foreach (var kvp in _runtimeClips.ToArray())
             {
-                take(key, o);
-                _runtimeClips.Remove(key);
+                take(kvp.Key, kvp.Value);
+                _runtimeClips.Remove(kvp.Key);
             }
         }
 

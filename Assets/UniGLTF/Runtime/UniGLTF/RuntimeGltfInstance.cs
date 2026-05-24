@@ -255,7 +255,7 @@ namespace UniGLTF
             }
         }
 
-        static Dictionary<Transform, IReadOnlyDictionary<Transform, TransformState>> PoseMap = new();
+        static Dictionary<Transform, IReadOnlyDictionary<Transform, TransformState>> PoseMap = new Dictionary<Transform, IReadOnlyDictionary<Transform, TransformState>>();
         public static IReadOnlyDictionary<Transform, TransformState> SafeGetInitialPose(
             Transform root, bool useCache = true)
         {

@@ -90,10 +90,20 @@ namespace UniGLTF.MeshUtility
             // write mesh asset.
             foreach (var result in results)
             {
-                var mesh = result.IntegratedRenderer.sharedMesh;
-                var assetPath = GetMeshWritePath(mesh);
-                Debug.LogFormat("CreateAsset: {0}", assetPath);
-                AssetDatabase.CreateAsset(mesh, assetPath);
+                if (result.Integrated?.IntegratedRenderer != null)
+                {
+                    var mesh = result.Integrated.IntegratedRenderer.sharedMesh;
+                    var assetPath = GetMeshWritePath(mesh);
+                    Debug.LogFormat("CreateAsset: {0}", assetPath);
+                    AssetDatabase.CreateAsset(mesh, assetPath);
+                }
+                if (result.IntegratedNoBlendShape?.IntegratedRenderer != null)
+                {
+                    var mesh = result.IntegratedNoBlendShape.IntegratedRenderer.sharedMesh;
+                    var assetPath = GetMeshWritePath(mesh);
+                    Debug.LogFormat("CreateAsset: {0}", assetPath);
+                    AssetDatabase.CreateAsset(mesh, assetPath);
+                }
             }
 
             if (src.GetGameObjectType() == GameObjectType.AssetPrefab)

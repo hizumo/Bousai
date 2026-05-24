@@ -36,9 +36,9 @@ namespace UniGLTF
 
         public void Dispose()
         {
-            foreach (var (k, v) in _textureCache)
+            foreach (var kvp in _textureCache)
             {
-                UnityObjectDestroyer.DestroyRuntimeOrEditor(v);
+                UnityObjectDestroyer.DestroyRuntimeOrEditor(kvp.Value);
             }
             _textureCache.Clear();
         }
@@ -49,10 +49,10 @@ namespace UniGLTF
         /// <param name="take"></param>
         public void TransferOwnership(TakeResponsibilityForDestroyObjectFunc take)
         {
-            foreach (var (k, v) in _textureCache.ToArray())
+            foreach (var kvp in _textureCache.ToArray())
             {
-                take(k, v);
-                _textureCache.Remove(k);
+                take(kvp.Key, kvp.Value);
+                _textureCache.Remove(kvp.Key);
             }
         }
 

@@ -4,10 +4,10 @@ namespace UniGLTF
 {
     public class UrpGltfMaterialExporter : IMaterialExporter
     {
-        public UrpLitMaterialExporter UrpLitExporter { get; set; } = new();
-        public UrpUnlitMaterialExporter UrpUnlitExporter { get; set; } = new();
-        public UrpUniUnlitMaterialExporter UrpUniUnlitExporter { get; set; } = new();
-        public UrpFallbackMaterialExporter FallbackExporter { get; set; } = new();
+        public UrpLitMaterialExporter UrpLitExporter { get; set; } = new UrpLitMaterialExporter();
+        public UrpUnlitMaterialExporter UrpUnlitExporter { get; set; } = new UrpUnlitMaterialExporter();
+        public UrpUniUnlitMaterialExporter UrpUniUnlitExporter { get; set; } = new UrpUniUnlitMaterialExporter();
+        public UrpFallbackMaterialExporter FallbackExporter { get; set; } = new UrpFallbackMaterialExporter();
 
         public glTFMaterial ExportMaterial(Material m, ITextureExporter textureExporter, GltfExportSettings settings)
         {

@@ -88,8 +88,9 @@ namespace UniGLTF.MeshUtility
             }
 
             // second, replace mesh
-            foreach (var (src, tr) in boneMap)
+            foreach (var boneEntry in boneMap)
             {
+                var src = boneEntry.Key;
                 if (meshMap.TryGetValue(src, out var info))
                 {
                     info.ReplaceMesh(src.gameObject);

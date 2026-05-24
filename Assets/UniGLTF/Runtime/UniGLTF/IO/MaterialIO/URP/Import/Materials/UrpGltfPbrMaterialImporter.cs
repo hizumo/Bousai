@@ -94,7 +94,7 @@ namespace UniGLTF
                 context.BaseColorSrgb = baseColorFactor.Value.gamma;
             }
 
-            if (src is { pbrMetallicRoughness: { baseColorTexture: { index: >= 0 } } })
+            if (src?.pbrMetallicRoughness?.baseColorTexture != null && src.pbrMetallicRoughness.baseColorTexture.index >= 0)
             {
                 if (GltfPbrTextureImporter.TryBaseColorTexture(data, src, out _, out var desc))
                 {
@@ -112,7 +112,7 @@ namespace UniGLTF
             context.Metallic = src.pbrMetallicRoughness.metallicFactor;
             context.Smoothness = 1.0f - src.pbrMetallicRoughness.roughnessFactor;
 
-            if (src is { pbrMetallicRoughness: { metallicRoughnessTexture: { index: >= 0 } } })
+            if (src?.pbrMetallicRoughness?.metallicRoughnessTexture != null && src.pbrMetallicRoughness.metallicRoughnessTexture.index >= 0)
             {
                 if (GltfPbrTextureImporter.TryStandardTexture(data, src, out _, out var desc))
                 {
@@ -125,7 +125,7 @@ namespace UniGLTF
 
         public static async Task ImportOcclusionAsync(GltfData data, glTFMaterial src, UrpLitContext context, GetTextureAsyncFunc getTextureAsync, IAwaitCaller awaitCaller)
         {
-            if (src is { occlusionTexture: { index: >= 0 } })
+            if (src?.occlusionTexture != null && src.occlusionTexture.index >= 0)
             {
                 if (GltfPbrTextureImporter.TryStandardTexture(data, src, out _, out var desc))
                 {
@@ -137,7 +137,7 @@ namespace UniGLTF
 
         private static async Task ImportNormalAsync(GltfData data, glTFMaterial src, UrpLitContext context, GetTextureAsyncFunc getTextureAsync, IAwaitCaller awaitCaller)
         {
-            if (src.normalTexture is { index: >= 0 })
+            if (src.normalTexture != null && src.normalTexture.index >= 0)
             {
                 if (GltfPbrTextureImporter.TryNormalTexture(data, src, out _, out var desc))
                 {
@@ -155,7 +155,7 @@ namespace UniGLTF
                 context.EmissionColorLinear = emissiveFactor.Value;
             }
 
-            if (src is { emissiveTexture: { index: >= 0 } })
+            if (src?.emissiveTexture != null && src.emissiveTexture.index >= 0)
             {
                 if (GltfPbrTextureImporter.TryEmissiveTexture(data, src, out _, out var desc))
                 {
@@ -163,7 +163,7 @@ namespace UniGLTF
                 }
             }
 
-            if (context.EmissionColorLinear is {maxColorComponent: > 0} || context.EmissionTexture != null)
+            if (context.EmissionColorLinear.maxColorComponent > 0 || context.EmissionTexture != null)
             {
                 context.IsEmissionEnabled = true;
             }

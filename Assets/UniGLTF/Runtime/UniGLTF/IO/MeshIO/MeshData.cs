@@ -299,9 +299,9 @@ namespace UniGLTF
             {
                 // 事前に blendShape.{Positions,Normals,Tangents} のサイズを設定することで、GC Alloc を減少させる
                 int maxTargetsCount = 0;
-                Dictionary<int, int> numPositions = new();
-                Dictionary<int, int> numNormals   = new();
-                Dictionary<int, int> numTangents  = new();
+                Dictionary<int, int> numPositions = new Dictionary<int, int>();
+                Dictionary<int, int> numNormals   = new Dictionary<int, int>();
+                Dictionary<int, int> numTangents  = new Dictionary<int, int>();
 
                 foreach (var primitives in gltfMesh.primitives)
                 {
@@ -315,17 +315,17 @@ namespace UniGLTF
                             List<glTFAccessor> accessors = GLTF.accessors;
                             if (primTarget.POSITION != -1)
                             {
-                                numPositions.TryAdd(i, 0);
+                                if (!numPositions.ContainsKey(i)) numPositions[i] = 0;
                                 numPositions[i] += GetAccessorElementCount(GLTF, accessors[primTarget.POSITION]);
                             }
                             if (primTarget.NORMAL != -1)
                             {
-                                numNormals.TryAdd(i, 0);
+                                if (!numNormals.ContainsKey(i)) numNormals[i] = 0;
                                 numNormals[i] += GetAccessorElementCount(GLTF, accessors[primTarget.NORMAL]);
                             }
                             if (primTarget.TANGENT != -1)
                             {
-                                numTangents.TryAdd(i, 0);
+                                if (!numTangents.ContainsKey(i)) numTangents[i] = 0;
                                 numTangents[i] += GetAccessorElementCount(GLTF, accessors[primTarget.TANGENT]);
                             }
                             continue;
@@ -362,9 +362,9 @@ namespace UniGLTF
                 {
                     GetOrCreateBlendShape(
                         i,
-                        numPositions.GetValueOrDefault(i, 0),
-                        numNormals.GetValueOrDefault(i, 0),
-                        numTangents.GetValueOrDefault(i, 0)
+                        numPositions.TryGetValue(i, out var np) ? np : 0,
+                        numNormals.TryGetValue(i, out var nn) ? nn : 0,
+                        numTangents.TryGetValue(i, out var nt) ? nt : 0
                     );
                 }
             }
